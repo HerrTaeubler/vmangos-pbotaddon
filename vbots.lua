@@ -1,29 +1,166 @@
 -- Create Date : 2020/5/12 10:00:00
 
--- battleground
-BG_ARATHI					= "arathi";
-BG_ALTERAC					= "alterac";
-BG_WARSONG					= "warsong";
--- team
-TEAM_HORDE					= "horde";
-TEAM_ALLIANCE				= "alliance";
+-- Constants moved to top and grouped logically
+local ADDON_NAME = "vbots"
 
--- role
-ROLE_HEALER					= "healer"
-ROLE_DPS					= "dps"
-ROLE_TANK					= "tank"
 
--- class
+-- Battleground constants
+local BG = {
+    ARATHI = "arathi",
+    ALTERAC = "alterac",
+    WARSONG = "warsong"
+}
 
-CLASS_WARRIOR = "warrior"  -- 1 => '战士',
-CLASS_PALADIN = "paladin"  -- 2 => '圣骑士',
-CLASS_HUNTER  = "hunter"   -- 3 => '猎人',
-CLASS_ROUGE   = "rouge"  -- 4 => '潜行者',
-CLASS_PRIEST  = "priest"  -- 5 => '牧师',
-CLASS_SHAMAN  = "shaman" -- 7 => '萨满',
-CLASS_MAGE    = "mage"  -- 8 => '法师',
-CLASS_WARLOCK = "warlock"  -- 9 => '术士',
-CLASS_DRUID   = "druid"  -- 11 => '德鲁伊');
+-- Team constants
+local TEAM = {
+    HORDE = "horde",
+    ALLIANCE = "alliance"
+}
+
+-- Role constants
+local ROLE = {
+    HEALER = "healer",
+    DPS = "dps",
+    TANK = "tank"
+}
+
+-- Class constants
+local CLASS = {
+    WARRIOR = "warrior",   -- 战士
+    PALADIN = "paladin",   -- 圣骑士
+    HUNTER = "hunter",     -- 猎人
+    ROGUE = "rogue",      -- 潜行者
+    PRIEST = "priest",     -- 牧师
+    SHAMAN = "shaman",    -- 萨满
+    MAGE = "mage",        -- 法师
+    WARLOCK = "warlock",   -- 术士
+    DRUID = "druid"       -- 德鲁伊
+}
+
+-- Command constants
+local CMD = {
+    PARTYBOT = {
+        CLONE = ".partybot clone",
+        REMOVE = ".partybot remove",
+        ADD = ".partybot add ",
+        SETROLE = ".partybot setrole "
+    },
+    BATTLEBOT = {
+        ADD = ".battlebot add ",
+        GO = ".go "
+    },
+    CHARACTER = {
+        GEAR = ".character premade gear ",
+        SPEC = ".character premade spec "
+    }
+}
+
+-- Local variables for minimap button
+local MinimapButton = {
+    shown = true,
+    position = 268,
+    radius = 78,  -- Distance from minimap center
+    -- Cached math functions for better performance
+    cos = math.cos,
+    sin = math.sin,
+    deg = math.deg,
+    atan2 = math.atan2
+}
+
+-- Utility functions
+local function SendCommand(command, ...)
+    local fullCommand = command .. table.concat({...}, " ")
+    SendChatMessage(fullCommand)
+end
+
+-- Minimap button position calculation optimization
+function MinimapButton:UpdatePosition()
+    local radian = self.position * (math.pi/180)
+    vbotsButtonFrame:SetPoint(
+        "TOPLEFT",
+        "Minimap",
+        "TOPLEFT",
+        54 - (self.radius * self.cos(radian)),
+        (self.radius * self.sin(radian)) - 55
+    )
+    self:Init()
+end
+
+function MinimapButton:CalculatePosition(xpos, ypos)
+    local xmin, ymin = Minimap:GetLeft(), Minimap:GetBottom()
+    xpos = xmin - xpos/UIParent:GetScale() + 70
+    ypos = ypos/UIParent:GetScale() - ymin - 70
+    
+    local angle = self.deg(self.atan2(ypos, xpos))
+    if angle < 0 then
+        angle = angle + 360
+    end
+    
+    self.position = angle
+    self:UpdatePosition()
+end
+
+function MinimapButton:Init()
+    if self.shown then
+        vbotsFrame:Show()
+    else
+        vbotsFrame:Hide()
+    end
+end
+
+function MinimapButton:Toggle()
+    self.shown = not self.shown
+    self:Init()
+end
+
+-- PartyBot functions
+local PartyBot = {
+    function Clone(self)
+        SendCommand(CMD.PARTYBOT.CLONE)
+    end,
+    
+    function Remove(self)
+        SendCommand(CMD.PARTYBOT.REMOVE)
+    end,
+    
+    function SetRole(self, role)
+        SendCommand(CMD.PARTYBOT.SETROLE, role)
+    end,
+    
+    function Add(self, class)
+        SendCommand(CMD.PARTYBOT.ADD, class)
+        DEFAULT_CHAT_FRAME:AddMessage("Bot added. Please search available gear and spec set.")
+    end
+}
+
+-- Frame management functions
+local function CloseFrame()
+    vbotsFrame:Hide()
+    MinimapButton.shown = false
+end
+
+local function OpenFrame()
+    DEFAULT_CHAT_FRAME:AddMessage("Loading " .. ADDON_NAME .. " v" .. ADDON_VERSION)
+    DEFAULT_CHAT_FRAME:RegisterEvent('CHAT_MSG_SYSTEM')
+    vbotsFrame:Show()
+    MinimapButton.shown = true
+end
+
+-- Hook up the global functions needed by XML
+_G.SubPartyBotClone = function(self) PartyBot:Clone() end
+_G.SubPartyBotRemove = function(self) PartyBot:Remove() end
+_G.SubPartyBotSetRole = function(self, role) PartyBot:SetRole(role) end
+_G.SubPartyBotAdd = function(self, class) PartyBot:Add(class) end
+_G.CloseFrame = CloseFrame
+_G.OpenFrame = OpenFrame
+
+_G.vbotsButtonFrame_Init = function() MinimapButton:Init() end
+_G.vbotsButtonFrame_Toggle = function() MinimapButton:Toggle() end
+_G.vbotsButtonFrame_UpdatePosition = function() MinimapButton:UpdatePosition() end
+_G.vbotsButtonFrame_BeingDragged = function()
+    local x, y = GetCursorPosition()
+    MinimapButton:CalculatePosition(x, y)
+end
 
 -- cmd
 CMD_PARTYBOT_CLONE = ".partybot clone";
