@@ -142,6 +142,41 @@ local function Debug(msg)
     DEFAULT_CHAT_FRAME:AddMessage("|cFF00FF00ChatTest:|r " .. msg)
 end
 
+-- Create frame and register for chat messages
+local f = CreateFrame("Frame")
+f:RegisterEvent("CHAT_MSG_SYSTEM")
+
+-- Event handler for vanilla WoW 1.12.1
+f:SetScript("OnEvent", function()
+    local message = arg1
+    if not message then return end
+    
+    Debug("Got message: " .. tostring(message))
+    
+    -- Try to match the exact format we see
+    if string.find(message, "^%d+%s*-%s*") then
+        Debug("Found a line starting with number!")
+        local _, _, id, name = string.find(message, "^(%d+)%s*-%s*([^%(]+)")
+        if id and name then
+            Debug("Found template -> ID: " .. id .. ", Name: " .. name)
+            -- Store the template
+            templates[id] = name
+            -- Update dropdown
+            local dropdown = getglobal("vbotsTemplateDropDown")
+            if dropdown then
+                UIDropDownMenu_Initialize(dropdown, TemplateDropDown_Initialize)
+            end
+        end
+    end
+    
+    -- Also look for the header
+    if string.find(message, "Listing available premade templates") then
+        Debug("=== Found header ===")
+        -- Clear old templates when getting new list
+        templates = {}
+    end
+end)
+
 -- Dropdown menu initializer
 function TemplateDropDown_Initialize()
     local info = {}
@@ -167,38 +202,11 @@ function TemplateDropDown_OnClick()
     local name = templates[id]
     if id and name then
         SendChatMessage(".character premade gear " .. id)
-        getglobal("vbotsTemplateDropDownText"):SetText(id .. " - " .. name)
-    end
-end
-
--- Create frame and register for chat messages
-local f = CreateFrame("Frame")
-f:RegisterEvent("CHAT_MSG_SYSTEM")
-
--- Event handler
-f:SetScript("OnEvent", function()
-    local message = arg1
-    Debug("Got message: " .. tostring(message))
-    
-    -- Try to match the exact format we see
-    if string.find(message, "^%d+%s*-%s*") then
-        Debug("Found a line starting with number!")
-        local _, _, id, name = string.find(message, "^(%d+)%s*-%s*([^%(]+)")
-        if id and name then
-            Debug("Found template -> ID: " .. id .. ", Name: " .. name)
-            -- Store the template
-            templates[id] = name
-            -- Update dropdown
-            UIDropDownMenu_Initialize(getglobal("vbotsTemplateDropDown"), TemplateDropDown_Initialize)
+        local dropdownText = getglobal("vbotsTemplateDropDown".."Text")
+        if dropdownText then
+            dropdownText:SetText(id .. " - " .. name)
         end
     end
-    
-    -- Also look for the header
-    if string.find(message, "Listing available premade templates") then
-        Debug("=== Found header ===")
-        -- Clear old templates when getting new list
-        templates = {}
-    end
-end)
+end
 
 Debug("Test addon ready") 
