@@ -4,7 +4,7 @@
   
   vmangos core is Progressive Vanilla Core aimed at all versions from 1.2 to 1.12
   https://github.com/vmangos/core
-![UI](https://github.com/coolzoom/vmangos-pbotaddon/blob/master/bots.jpg)
+![UI](https://github.com/HerrTaeubler/vmangos-pbotaddon/blob/master/vbots.lua)
 
 # how to install
 - download and rename folder name to vbots
