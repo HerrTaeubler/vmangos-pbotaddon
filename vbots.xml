@@ -65,7 +65,7 @@
 		</Scripts>
 	</Frame>
 	
-	<Frame name="vbotsFrame" parent="UIParent" toplevel="true" enableMouse="true">
+	<Frame name="vbotsFrame" parent="UIParent" toplevel="true" movable="true" enableMouse="true">
 		<Size x="770" y="200" />
 		<Anchors>
 			<Anchor point="BOTTOMRIGHT">
@@ -2433,6 +2433,25 @@
 				</Scripts>
 			</Button>
 		</Frames>
+		<Scripts>
+			<OnLoad>
+				this:RegisterEvent("VARIABLES_LOADED");
+			</OnLoad>
+			<OnEvent>
+				vbotsButtonFrame_Init();
+				vbotsButtonFrame_UpdatePosition();
+			</OnEvent>
+			<OnMouseDown>
+				if (arg1 == "LeftButton") then
+					this:StartMoving();
+				end
+			</OnMouseDown>
+			<OnMouseUp>
+				if (arg1 == "LeftButton") then
+					this:StopMovingOrSizing();
+				end
+			</OnMouseUp>
+		</Scripts>
 	</Frame>
 	<Button name="AttributeOptions" inherits="GameMenuButtonTemplate" parent="GameMenuFrame" text="VBOTS">
 		<Anchors>
