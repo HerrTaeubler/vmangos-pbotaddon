@@ -134,20 +134,71 @@ function vbotsButtonFrame_OnEnter()
     GameTooltip:Show()
 end
 
--- PREMADE GEAR
-function SubPreMadeGearSearch(self)
-    SendChatMessage(CMD_PARTYBOT_GEAR)
+-- Store templates
+local templates = {}
+
+-- Simple debug function
+local function Debug(msg)
+    DEFAULT_CHAT_FRAME:AddMessage("|cFF00FF00ChatTest:|r " .. msg)
 end
 
-function SubPreMadeGearSet(self, arg)
-    SendChatMessage(CMD_PARTYBOT_GEAR .. arg)
+-- Dropdown menu initializer
+function TemplateDropDown_Initialize()
+    local info = {}
+    -- Add header
+    info.text = "Select Template"
+    info.notClickable = 1
+    info.isTitle = 1
+    UIDropDownMenu_AddButton(info)
+
+    -- Add all stored templates
+    for id, name in pairs(templates) do
+        info = {}
+        info.text = id .. " - " .. name
+        info.func = TemplateDropDown_OnClick
+        info.value = id
+        UIDropDownMenu_AddButton(info)
+    end
 end
 
--- PREMADE SPEC
-function SubPreMadeSPECSearch(self)
-    SendChatMessage(CMD_PARTYBOT_SPEC)
+-- Dropdown click handler
+function TemplateDropDown_OnClick()
+    local id = this.value
+    local name = templates[id]
+    if id and name then
+        SendChatMessage(".character premade gear " .. id)
+        getglobal("vbotsTemplateDropDownText"):SetText(id .. " - " .. name)
+    end
 end
 
-function SubPreMadeSPECSet(self, arg)
-    SendChatMessage(CMD_PARTYBOT_SPEC .. arg)
-end
+-- Create frame and register for chat messages
+local f = CreateFrame("Frame")
+f:RegisterEvent("CHAT_MSG_SYSTEM")
+
+-- Event handler
+f:SetScript("OnEvent", function()
+    local message = arg1
+    Debug("Got message: " .. tostring(message))
+    
+    -- Try to match the exact format we see
+    if string.find(message, "^%d+%s*-%s*") then
+        Debug("Found a line starting with number!")
+        local _, _, id, name = string.find(message, "^(%d+)%s*-%s*([^%(]+)")
+        if id and name then
+            Debug("Found template -> ID: " .. id .. ", Name: " .. name)
+            -- Store the template
+            templates[id] = name
+            -- Update dropdown
+            UIDropDownMenu_Initialize(getglobal("vbotsTemplateDropDown"), TemplateDropDown_Initialize)
+        end
+    end
+    
+    -- Also look for the header
+    if string.find(message, "Listing available premade templates") then
+        Debug("=== Found header ===")
+        -- Clear old templates when getting new list
+        templates = {}
+    end
+end)
+
+Debug("Test addon ready") 
