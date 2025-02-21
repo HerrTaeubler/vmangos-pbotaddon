@@ -443,7 +443,7 @@
 			
 			
 			<!-- right 2 column -->
-			<Button name="BattleBotAddwarsonghorde" inherits="UIPanelButtonTemplate" text="warsong alliance">
+			<Button name="BattleBotAddwarsongalliance" inherits="UIPanelButtonTemplate" text="warsong alliance">
 				<Size x="100" y="30" />
 				<Anchors>
 					<Anchor point="TOPRIGHT">
@@ -459,7 +459,7 @@
 				</Scripts>
 			</Button>
 			
-			<Button name="BattleBotAddarathihorde" inherits="UIPanelButtonTemplate" text="arathi alliance">
+			<Button name="BattleBotAddarathialliance" inherits="UIPanelButtonTemplate" text="arathi alliance">
 				<Size x="100" y="30" />
 				<Anchors>
 					<Anchor point="TOPRIGHT">
@@ -475,7 +475,7 @@
 				</Scripts>
 			</Button>
 			
-			<Button name="BattleBotAddalterachorde" inherits="UIPanelButtonTemplate" text="alterac alliance">
+			<Button name="BattleBotAddalteracalliance" inherits="UIPanelButtonTemplate" text="alterac alliance">
 				<Size x="100" y="30" />
 				<Anchors>
 					<Anchor point="TOPRIGHT">
@@ -492,7 +492,7 @@
 			</Button>
 			
 			<!-- right 3 column -->
-			<Button name="BattleGowarsong" inherits="UIPanelButtonTemplate" text="queue warsong">
+			<Button name="BattleGoWarsong" inherits="UIPanelButtonTemplate" text="queue warsong">
 				<Size x="100" y="30" />
 				<Anchors>
 					<Anchor point="TOPRIGHT">
@@ -508,7 +508,7 @@
 				</Scripts>
 			</Button>
 			
-			<Button name="BattleBotAddarathihorde" inherits="UIPanelButtonTemplate" text="queue arathi">
+			<Button name="BattleGoArathi" inherits="UIPanelButtonTemplate" text="queue arathi">
 				<Size x="100" y="30" />
 				<Anchors>
 					<Anchor point="TOPRIGHT">
@@ -524,7 +524,7 @@
 				</Scripts>
 			</Button>
 			
-			<Button name="BattleBotAddalterachorde" inherits="UIPanelButtonTemplate" text="queue alterac">
+			<Button name="BattleGoAlterac" inherits="UIPanelButtonTemplate" text="queue alterac">
 				<Size x="100" y="30" />
 				<Anchors>
 					<Anchor point="TOPRIGHT">
@@ -599,7 +599,7 @@
 							<OnLoad>
 								UIDropDownMenu_SetWidth(150);
 								UIDropDownMenu_Initialize(this, TemplateDropDown_Initialize);
-								UIDropDownMenu_SetText(this, "Select Template");
+								getglobal(this:GetName().."Text"):SetText("Select Template");
 							</OnLoad>
 						</Scripts>
 					</Frame>
