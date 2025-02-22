@@ -75,7 +75,10 @@
 			</Anchor>
 		</Anchors>
 
-		<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border"  tile="true">
+		<!-- Modern frame style -->
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" 
+				  edgeFile="Interface\DialogFrame\UI-DialogBox-Border" 
+				  tile="true">
 			<BackgroundInsets>
 				<AbsInset left="11" right="12" top="12" bottom="11" />
 			</BackgroundInsets>
@@ -86,6 +89,28 @@
 				<AbsValue val="32" />
 			</EdgeSize>
 		</Backdrop>
+
+		<!-- Title bar -->
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parentTitleBG" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size x="300" y="64"/>
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset x="0" y="12"/>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<FontString name="$parentTitle" inherits="GameFontNormal" text="VBots Control Panel">
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset x="0" y="0"/>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+
 		<!-- overlay labels layer for below buttons frame-->
         <Layers>
 		    <!-- string for buttons -->
