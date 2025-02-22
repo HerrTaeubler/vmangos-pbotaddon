@@ -54,6 +54,20 @@ local MinimapButton = {
     atan2 = math.atan2
 }
 
+-- Change this line near the top
+local playerFaction = nil  -- Initialize as nil
+
+-- Add this function to safely get faction
+local function GetPlayerFaction()
+    if not playerFaction then
+        local faction = UnitFactionGroup("player")
+        if faction then
+            playerFaction = string.lower(faction)
+        end
+    end
+    return playerFaction or "alliance"  -- Default to alliance if faction not yet available
+end
+
 -- Minimap button position calculation optimization
 function MinimapButton:UpdatePosition()
     local radian = self.position * (math.pi/180)
@@ -170,38 +184,65 @@ local function Debug(msg)
     DEFAULT_CHAT_FRAME:AddMessage("|cFF00FF00ChatTest:|r " .. msg)
 end
 
--- Create frame and register for chat messages
+-- Move this function definition up, before the event registration
+-- Simplify the faction button handling
+local function InitializeFactionClassButton()
+    local button = getglobal("PartyBotAddFactionClass")
+    if button then
+        local faction = string.lower(UnitFactionGroup("player"))
+        if faction == "alliance" then
+            button:SetText("Add Paladin")
+        else
+            button:SetText("Add Shaman")
+        end
+        Debug("Set faction button text for: " .. faction)
+    else
+        Debug("Could not find faction button!")
+    end
+end
+
+-- Then register events and set up event handler
 local f = CreateFrame("Frame")
 f:RegisterEvent("CHAT_MSG_SYSTEM")
+f:RegisterEvent("PLAYER_ENTERING_WORLD")
+f:RegisterEvent("PLAYER_LOGIN")
 
--- Event handler for vanilla WoW 1.12.1
 f:SetScript("OnEvent", function()
+    local event = event
     local message = arg1
-    if not message then return end
-    
-    Debug("Got message: " .. tostring(message))
-    
-    -- Try to match the exact format we see
-    if string.find(message, "^%d+%s*-%s*") then
-        Debug("Found a line starting with number!")
-        local _, _, id, name = string.find(message, "^(%d+)%s*-%s*([^%(]+)")
-        if id and name then
-            Debug("Found template -> ID: " .. id .. ", Name: " .. name)
-            -- Store the template
-            templates[id] = name
-            -- Update dropdown
-            local dropdown = getglobal("vbotsTemplateDropDown")
-            if dropdown then
-                UIDropDownMenu_Initialize(dropdown, TemplateDropDown_Initialize)
+
+    -- Handle chat messages for templates
+    if event == "CHAT_MSG_SYSTEM" and message then
+        Debug("Got message: " .. tostring(message))
+        
+        -- Try to match the exact format we see
+        if string.find(message, "^%d+%s*-%s*") then
+            Debug("Found a line starting with number!")
+            local _, _, id, name = string.find(message, "^(%d+)%s*-%s*([^%(]+)")
+            if id and name then
+                Debug("Found template -> ID: " .. id .. ", Name: " .. name)
+                templates[id] = name
+                local dropdown = getglobal("vbotsTemplateDropDown")
+                if dropdown then
+                    UIDropDownMenu_Initialize(dropdown, TemplateDropDown_Initialize)
+                end
             end
         end
+        
+        if string.find(message, "Listing available premade templates") then
+            Debug("=== Found header ===")
+            templates = {}
+        end
     end
-    
-    -- Also look for the header
-    if string.find(message, "Listing available premade templates") then
-        Debug("=== Found header ===")
-        -- Clear old templates when getting new list
-        templates = {}
+
+    -- Handle faction button initialization
+    if event == "PLAYER_ENTERING_WORLD" then
+        local faction = UnitFactionGroup("player")
+        if faction then
+            playerFaction = string.lower(faction)
+            InitializeFactionClassButton()
+            Debug("Initialized faction buttons for: " .. playerFaction)
+        end
     end
 end)
 
@@ -273,6 +314,7 @@ end)
 
 -- Function to fill a battleground
 function SubBattleFill(self, bgType)
+    Debug("Starting battleground fill for: " .. bgType)
     local playerFaction = string.lower(UnitFactionGroup("player"))
     local playerLevel = UnitLevel("player")
     local bgData = BG_INFO[bgType]
