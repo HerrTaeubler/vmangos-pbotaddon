@@ -1,0 +1,61 @@
+### Battleground System
+- Added complete BG queue and fill system
+- Implemented auto-fill functionality for all BGs (WSG, AB, AV)
+- Added level checks for BG requirements
+- Queue command system with proper faction balance
+- Leave space for player in their faction's team
+
+### Template System
+- Added dropdown menu for gear templates
+- Implemented spec template selection
+- Added template preview functionality
+- Improved template application system
+- Added gear and spec buttons with proper spacing
+
+### UI Improvements
+- Complete layout redesign using CENTER-based positioning
+- Organized buttons in logical columns:
+  * Left: Class buttons (Warrior, Hunter, Mage)
+  * Middle: Additional classes (Rogue, Priest, Faction-specific)
+  * Right: Battleground controls
+- Improved visual hierarchy and spacing
+- Added credits section
+
+### Command Queue System
+- Implemented command queuing for multiple bot additions
+- Added delay between commands (0.5s)
+- Added feedback messages for queue status
+- Prevents command overflow
+
+### Faction-Specific Features
+- Dynamic faction class button (Paladin/Shaman)
+- Automatic faction detection
+- Proper initialization of faction-specific elements
+- Improved error handling for faction-specific commands
+
+## Technical Improvements
+
+### Code Organization
+- Moved constants to top of file
+- Grouped related functions
+- Added proper commenting
+- Improved code readability
+
+### Debug System
+- Added debug messages
+- Improved error handling
+- Added feedback for template loading
+- Better user feedback for actions
+
+### Memory Optimization
+- Cached math functions
+- Improved template storage
+- Better variable management
+- Reduced redundant code
+
+## Visual Enhancements
+- Standardized button sizes (110x25)
+- Consistent spacing between elements
+- Improved visual feedback
+- Better overall layout organization
+- Added credits with proper styling
