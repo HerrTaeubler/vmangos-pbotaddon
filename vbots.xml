@@ -512,7 +512,7 @@
 				<Anchors>
 					<Anchor point="CENTER" relativeTo="$parent">
 						<Offset>
-							<AbsDimension x="0" y="-160"/>
+							<AbsDimension x="0" y="-145"/>  <!-- Changed from -138 to -145 to move slightly down -->
 						</Offset>
 					</Anchor>
 				</Anchors>
