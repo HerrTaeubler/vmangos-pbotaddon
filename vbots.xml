@@ -510,9 +510,9 @@
 			<Button name="CloseButton" inherits="UIPanelButtonTemplate" text="Close">
 				<Size x="110" y="25" />
 				<Anchors>
-					<Anchor point="BOTTOM">
+					<Anchor point="CENTER" relativeTo="$parent">
 						<Offset>
-							<AbsDimension x="0" y="20"/>
+							<AbsDimension x="0" y="-160"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
