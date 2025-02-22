@@ -1,25 +1,57 @@
-# vmangos-pbotaddon
-  just a very simple bot ui for vmangos, 
-  if you close it, re-open from main menu(esc), or the vmangos icon beside the minimap.
-  
-  vmangos core is Progressive Vanilla Core aimed at all versions from 1.2 to 1.12
-  https://github.com/vmangos/core
+# VBots Addon for VMaNGOS
+Original by coolzoom, enhanced by HerrTaeubler
+
+A comprehensive bot UI for VMaNGOS with party bot management, battleground automation, and template system.
+VMaNGOS is a Progressive Vanilla Core aimed at all versions from 1.2 to 1.12
+https://github.com/vmangos/core
+
 ![UI](https://github.com/HerrTaeubler/vmangos-pbotaddon/blob/master/botui.jpg)
 
-# how to install
-- download and rename folder name to vbots
-- copy and paste it into yourwowfolder/Interface/Addon
-  final path would like yourwowfolder/Interface/Addon/vbots
-- enable it from lower left corner the login screen
+## Installation
+1. Download and rename folder to `vbots`
+2. Copy folder to `World of Warcraft/Interface/Addons/`
+   - Final path should be: `World of Warcraft/Interface/Addons/vbots`
+3. Enable addon in the lower left corner of the login screen
+4. Access via ESC menu or minimap icon
 
-- for bots premade gear and spec, please select bots, and click the question mark to retrive the available gear/spec, then click the number to apply the gear/spec set
+## Requirements
+- GM Level 6 required for all commands
+- VMaNGOS server with bot support
 
+## Features
 
-# other notice
-- Notice, you have to be GM level 6 to use all commands
-- I'm not good at addon, i just added 32 buttons for each, if you know there is a better way to set the gear/spec template welcome to make PR
-- partybot add paladin is for alliance only, shaman is for horde only, you can change the source PlayerBotMgr.cpp line 806 and 814
+### Core Functions
+- Basic bot controls (Clone, Remove, Die, Revive)
+- Role selection (Tank, DPS, Heal)
+- Class-specific bot creation
+- Faction-specific class support (Paladin-Alliance/Shaman-Horde)
 
-else if (option == "paladin" && pPlayer->GetTeam() == ALLIANCE)
+### Battleground System
+- Complete BG queue and fill system for WSG, AB, AV
+- Auto-fill functionality with level requirements
+- Faction-balanced team creation
+- Reserved spot for player in their faction
 
-else if (option == "shaman" && pPlayer->GetTeam() == HORDE)
+### Template System
+For bot gear and spec templates:
+1. Select your bot
+2. Click the question mark to view available templates
+3. Click the template number to apply the gear/spec set
+
+### UI Features
+- Organized button layout in logical columns
+- Minimap button with tooltip
+- ESC menu integration
+- Template dropdown system
+- Visual feedback for actions
+
+## Technical Details
+- Command queue system with delay protection
+- Faction detection and validation
+- Debug system for troubleshooting
+- Event handling for proper initialization
+- Memory optimized functions
+
+ ## Credits
+Original addon by coolzoom
+UI improvements and feature additions by HerrTaeubler
