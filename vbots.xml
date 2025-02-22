@@ -140,18 +140,6 @@
 				</FontString>
 				
 				<!-- upper right -->
-				<FontString name="BattleBot" inherits="GameFontNormal" text="BattleBot command">
-						<Size x="220" y="20" />
-						<Anchors>
-							<Anchor point="TOPRIGHT">
-								<Offset>
-									<AbsDimension x="0" y="8"/>
-								</Offset>
-							</Anchor>
-						</Anchors>
-				</FontString>
-				
-				<!-- bottom right -->
 				<FontString name="AddBot" inherits="GameFontNormal" text="vmangos bot addon by coolzoom">
 						<Size x="220" y="20" />
 						<Anchors>
@@ -418,111 +406,12 @@
 			</Button>
 			
 			<!-- right 1 column -->
-			<Button name="BattleBotAddwarsonghorde" inherits="UIPanelButtonTemplate" text="warsong horde">
-				<Size x="100" y="30" />
-				<Anchors>
-					<Anchor point="TOPRIGHT">
-						<Offset>
-							<AbsDimension x="-10" y="-20"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						SubBattleBotAdd(self, "warsong", "horde");
-					</OnClick>
-				</Scripts>
-			</Button>
-			
-			<Button name="BattleBotAddarathihorde" inherits="UIPanelButtonTemplate" text="arathi horde">
-				<Size x="100" y="30" />
-				<Anchors>
-					<Anchor point="TOPRIGHT">
-						<Offset>
-							<AbsDimension x="-10" y="-50"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						SubBattleBotAdd(self, "arathi", "horde");
-					</OnClick>
-				</Scripts>
-			</Button>
-			
-			<Button name="BattleBotAddalterachorde" inherits="UIPanelButtonTemplate" text="alterac horde">
-				<Size x="100" y="30" />
-				<Anchors>
-					<Anchor point="TOPRIGHT">
-						<Offset>
-							<AbsDimension x="-10" y="-80"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						SubBattleBotAdd(self, "alterac", "horde");
-					</OnClick>
-				</Scripts>
-			</Button>
-			
-			
-			<!-- right 2 column -->
-			<Button name="BattleBotAddwarsongalliance" inherits="UIPanelButtonTemplate" text="warsong alliance">
-				<Size x="100" y="30" />
-				<Anchors>
-					<Anchor point="TOPRIGHT">
-						<Offset>
-							<AbsDimension x="-120" y="-20"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						SubBattleBotAdd(self, "warsong", "alliance");
-					</OnClick>
-				</Scripts>
-			</Button>
-			
-			<Button name="BattleBotAddarathialliance" inherits="UIPanelButtonTemplate" text="arathi alliance">
-				<Size x="100" y="30" />
-				<Anchors>
-					<Anchor point="TOPRIGHT">
-						<Offset>
-							<AbsDimension x="-120" y="-50"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						SubBattleBotAdd(self, "arathi", "alliance");
-					</OnClick>
-				</Scripts>
-			</Button>
-			
-			<Button name="BattleBotAddalteracalliance" inherits="UIPanelButtonTemplate" text="alterac alliance">
-				<Size x="100" y="30" />
-				<Anchors>
-					<Anchor point="TOPRIGHT">
-						<Offset>
-							<AbsDimension x="-120" y="-80"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						SubBattleBotAdd(self, "alterac", "alliance");
-					</OnClick>
-				</Scripts>
-			</Button>
-			
-			<!-- right 3 column -->
 			<Button name="BattleGoWarsong" inherits="UIPanelButtonTemplate" text="queue warsong">
 				<Size x="100" y="30" />
 				<Anchors>
 					<Anchor point="TOPRIGHT">
 						<Offset>
-							<AbsDimension x="-230" y="-20"/>
+							<AbsDimension x="-10" y="-20"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -538,7 +427,7 @@
 				<Anchors>
 					<Anchor point="TOPRIGHT">
 						<Offset>
-							<AbsDimension x="-230" y="-50"/>
+							<AbsDimension x="-10" y="-50"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -554,7 +443,7 @@
 				<Anchors>
 					<Anchor point="TOPRIGHT">
 						<Offset>
-							<AbsDimension x="-230" y="-80"/>
+							<AbsDimension x="-10" y="-80"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -565,58 +454,24 @@
 				</Scripts>
 			</Button>		
 			            
-		    <!-- Template System -->
+		    <!-- Template System - Rearranged -->
 			<Frame name="vbotsTemplateFrame">
-				<Size x="300" y="80"/>
+				<Size x="500" y="80"/>
 				<Anchors>
-					<Anchor point="TOPLEFT">
+					<Anchor point="BOTTOM" relativePoint="BOTTOM">
 						<Offset>
-							<AbsDimension x="10" y="-110"/>
+							<AbsDimension x="0" y="15"/>  <!-- Reduced from 35 to 15 to move it lower -->
 						</Offset>
 					</Anchor>
 				</Anchors>
 
 				<Frames>
-					<!-- Gear Button -->
-					<Button name="vbotsGearButton" inherits="UIPanelButtonTemplate" text="Gear Template">
-						<Size x="100" y="30"/>
-						<Anchors>
-							<Anchor point="TOPLEFT">
-								<Offset>
-									<AbsDimension x="0" y="0"/>
-								</Offset>
-							</Anchor>
-						</Anchors>
-						<Scripts>
-							<OnClick>
-								SendChatMessage(".character premade gear");
-							</OnClick>
-						</Scripts>
-					</Button>
-
-					<!-- Spec Button -->
-					<Button name="vbotsSpecButton" inherits="UIPanelButtonTemplate" text="Spec Template">
-						<Size x="100" y="30"/>
-						<Anchors>
-							<Anchor point="TOPLEFT">
-								<Offset>
-									<AbsDimension x="0" y="-35"/>
-								</Offset>
-							</Anchor>
-						</Anchors>
-						<Scripts>
-							<OnClick>
-								SendChatMessage(".character premade spec");
-							</OnClick>
-						</Scripts>
-					</Button>
-
-					<!-- Template Dropdown -->
+					<!-- Template Dropdown - Centered -->
 					<Frame name="vbotsTemplateDropDown" inherits="UIDropDownMenuTemplate">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="vbotsGearButton">
+							<Anchor point="CENTER">
 								<Offset>
-									<AbsDimension x="10" y="-5"/>
+									<AbsDimension x="0" y="0"/>
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -628,6 +483,40 @@
 							</OnLoad>
 						</Scripts>
 					</Frame>
+
+					<!-- Gear Button - Left of dropdown -->
+					<Button name="vbotsGearButton" inherits="UIPanelButtonTemplate" text="Gear Template">
+						<Size x="100" y="30"/>
+						<Anchors>
+							<Anchor point="RIGHT" relativePoint="LEFT" relativeTo="vbotsTemplateDropDown">
+								<Offset>
+									<AbsDimension x="-20" y="2"/>  <!-- Slight Y adjustment to align with dropdown -->
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								SendChatMessage(".character premade gear");
+							</OnClick>
+						</Scripts>
+					</Button>
+
+					<!-- Spec Button - Right of dropdown -->
+					<Button name="vbotsSpecButton" inherits="UIPanelButtonTemplate" text="Spec Template">
+						<Size x="100" y="30"/>
+						<Anchors>
+							<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="vbotsTemplateDropDown">
+								<Offset>
+									<AbsDimension x="20" y="2"/>  <!-- Slight Y adjustment to align with dropdown -->
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								SendChatMessage(".character premade spec");
+							</OnClick>
+						</Scripts>
+					</Button>
 				</Frames>
 			</Frame>
 
@@ -644,6 +533,55 @@
 				<Scripts>
 					<OnClick>
 						CloseFrame();
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<!-- Add these buttons next to the existing queue buttons -->
+			<Button name="BattleFillWarsong" inherits="UIPanelButtonTemplate" text="fill warsong">
+				<Size x="100" y="30" />
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="-120" y="-20"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						SubBattleFill(self, "warsong");
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<Button name="BattleFillArathi" inherits="UIPanelButtonTemplate" text="fill arathi">
+				<Size x="100" y="30" />
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="-120" y="-50"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						SubBattleFill(self, "arathi");
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<Button name="BattleFillAlterac" inherits="UIPanelButtonTemplate" text="fill alterac">
+				<Size x="100" y="30" />
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="-120" y="-80"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						SubBattleFill(self, "alterac");
 					</OnClick>
 				</Scripts>
 			</Button>
