@@ -12,7 +12,7 @@ CMD_PARTYBOT_SETROLE = ".partybot setrole "
 CMD_PARTYBOT_GEAR = ".character premade gear "
 CMD_PARTYBOT_SPEC = ".character premade spec "
 
--- BattleBot commands (kept for future auto-fill implementation)
+-- BattleBot commands
 CMD_BATTLEGROUND_GO = ".go "
 CMD_BATTLEBOT_ADD = ".battlebot add "
 
@@ -35,7 +35,7 @@ local BG_INFO = {
     }
 }
 
--- Command queue system (add near other local variables)
+-- Command queue system
 local CommandQueue = {
     commands = {},
     timer = 0,
@@ -184,8 +184,7 @@ local function Debug(msg)
     DEFAULT_CHAT_FRAME:AddMessage("|cFF00FF00ChatTest:|r " .. msg)
 end
 
--- Move this function definition up, before the event registration
--- Simplify the faction button handling
+-- Faction handling for add sham/pal
 local function InitializeFactionClassButton()
     local button = getglobal("PartyBotAddFactionClass")
     if button then
