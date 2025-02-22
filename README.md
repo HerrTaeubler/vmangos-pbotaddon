@@ -1,3 +1,7 @@
+![License](https://img.shields.io/github/license/HerrTaeubler/vmangos-pbotaddon)
+![Language](https://img.shields.io/github/languages/top/HerrTaeubler/vmangos-pbotaddon)
+![Last Commit](https://img.shields.io/github/last-commit/HerrTaeubler/vmangos-pbotaddon)
+
 # VBots Addon for VMaNGOS
 Original by coolzoom, enhanced by HerrTaeubler
 
