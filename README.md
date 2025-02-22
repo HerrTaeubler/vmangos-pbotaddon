@@ -52,6 +52,8 @@ For bot gear and spec templates:
 - Event handling for proper initialization
 - Memory optimized functions
 
+# Note: Some debug messages will remain in the chat until it is confirmed that everything runs stably in the long term.
+
  ## Credits
 Original addon by coolzoom
 UI improvements and feature additions by HerrTaeubler
