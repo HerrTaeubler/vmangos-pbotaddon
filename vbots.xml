@@ -119,10 +119,26 @@
 					<Anchors>
 						<Anchor point="CENTER" relativeTo="$parent">
 							<Offset>
-								<AbsDimension x="0" y="60"/>  <!-- Above role buttons -->
+								<AbsDimension x="0" y="70"/>  <!-- Changed from 60 to 70 -->
 							</Offset>
 						</Anchor>
 					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+
+		<!-- Add credit text in bottom right -->
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="vbotsCredit" inherits="GameFontNormalSmall" text="vbots addon from coolzoom feat. herrtaeubler">
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parent">
+							<Offset>
+								<AbsDimension x="-20" y="15"/>  <!-- Changed from 20 to 15 to move down slightly -->
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Color r="0.7" g="0.7" b="0.7"/>  <!-- Slightly grayed out -->
 				</FontString>
 			</Layer>
 		</Layers>
@@ -199,7 +215,7 @@
 				<Anchors>
 					<Anchor point="CENTER" relativeTo="$parent">
 						<Offset>
-							<AbsDimension x="-115" y="40"/>  <!-- Role buttons baseline -->
+							<AbsDimension x="-115" y="50"/>  <!-- Changed from 40 to 50 -->
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -215,7 +231,7 @@
 				<Anchors>
 					<Anchor point="CENTER" relativeTo="$parent">
 						<Offset>
-							<AbsDimension x="0" y="40"/>
+							<AbsDimension x="0" y="50"/>  <!-- Changed from 40 to 50 -->
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -231,7 +247,7 @@
 				<Anchors>
 					<Anchor point="CENTER" relativeTo="$parent">
 						<Offset>
-							<AbsDimension x="115" y="40"/>
+							<AbsDimension x="115" y="50"/>  <!-- Changed from 40 to 50 -->
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -248,7 +264,7 @@
 				<Anchors>
 					<Anchor point="CENTER" relativeTo="$parent">
 						<Offset>
-							<AbsDimension x="-170" y="-20"/>  <!-- First row of class buttons -->
+							<AbsDimension x="-170" y="-10"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -259,28 +275,12 @@
 				</Scripts>
 			</Button>
 
-			<Button name="PartyBotAddRogue" inherits="UIPanelButtonTemplate" text="Add Rogue">
-				<Size x="110" y="25" />
-				<Anchors>
-					<Anchor point="CENTER" relativeTo="$parent">
-						<Offset>
-							<AbsDimension x="-55" y="-20"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						SubPartyBotAdd(self, "rogue");
-					</OnClick>
-				</Scripts>
-			</Button>
-
 			<Button name="PartyBotAddHunter" inherits="UIPanelButtonTemplate" text="Add Hunter">
 				<Size x="110" y="25" />
 				<Anchors>
 					<Anchor point="CENTER" relativeTo="$parent">
 						<Offset>
-							<AbsDimension x="-170" y="-50"/>  <!-- Second row -->
+							<AbsDimension x="-170" y="-40"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -291,28 +291,12 @@
 				</Scripts>
 			</Button>
 
-			<Button name="PartyBotAddPriest" inherits="UIPanelButtonTemplate" text="Add Priest">
-				<Size x="110" y="25" />
-				<Anchors>
-					<Anchor point="CENTER" relativeTo="$parent">
-						<Offset>
-							<AbsDimension x="-55" y="-50"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						SubPartyBotAdd(self, "priest");
-					</OnClick>
-				</Scripts>
-			</Button>
-
 			<Button name="PartyBotAddMage" inherits="UIPanelButtonTemplate" text="Add Mage">
 				<Size x="110" y="25" />
 				<Anchors>
 					<Anchor point="CENTER" relativeTo="$parent">
 						<Offset>
-							<AbsDimension x="-170" y="-80"/>  <!-- Third row -->
+							<AbsDimension x="-170" y="-70"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -323,13 +307,45 @@
 				</Scripts>
 			</Button>
 
-			<!-- Dynamic faction class button -->
+			<!-- Middle column - Class buttons -->
+			<Button name="PartyBotAddRogue" inherits="UIPanelButtonTemplate" text="Add Rogue">
+				<Size x="110" y="25" />
+				<Anchors>
+					<Anchor point="CENTER" relativeTo="$parent">
+						<Offset>
+							<AbsDimension x="-55" y="-10"/>  <!-- Aligned with first row -->
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						SubPartyBotAdd(self, "rogue");
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<Button name="PartyBotAddPriest" inherits="UIPanelButtonTemplate" text="Add Priest">
+				<Size x="110" y="25" />
+				<Anchors>
+					<Anchor point="CENTER" relativeTo="$parent">
+						<Offset>
+							<AbsDimension x="-55" y="-40"/>  <!-- Aligned with second row -->
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						SubPartyBotAdd(self, "priest");
+					</OnClick>
+				</Scripts>
+			</Button>
+
 			<Button name="PartyBotAddFactionClass" inherits="UIPanelButtonTemplate">
 				<Size x="110" y="25" />
 				<Anchors>
 					<Anchor point="CENTER" relativeTo="$parent">
 						<Offset>
-							<AbsDimension x="-55" y="-80"/>
+							<AbsDimension x="-55" y="-70"/>  <!-- Aligned with third row -->
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -354,7 +370,7 @@
 				<Anchors>
 					<Anchor point="CENTER" relativeTo="$parent">
 						<Offset>
-							<AbsDimension x="55" y="-20"/>  <!-- First row of BG buttons -->
+							<AbsDimension x="55" y="-10"/>  <!-- Aligned with first row -->
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -370,7 +386,7 @@
 				<Anchors>
 					<Anchor point="CENTER" relativeTo="$parent">
 						<Offset>
-							<AbsDimension x="170" y="-20"/>
+							<AbsDimension x="170" y="-10"/>  <!-- Aligned with first row -->
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -386,7 +402,7 @@
 				<Anchors>
 					<Anchor point="CENTER" relativeTo="$parent">
 						<Offset>
-							<AbsDimension x="55" y="-50"/>  <!-- Second row -->
+							<AbsDimension x="55" y="-40"/>  <!-- Aligned with second row -->
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -402,7 +418,7 @@
 				<Anchors>
 					<Anchor point="CENTER" relativeTo="$parent">
 						<Offset>
-							<AbsDimension x="170" y="-50"/>
+							<AbsDimension x="170" y="-40"/>  <!-- Aligned with second row -->
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -419,7 +435,7 @@
 				<Anchors>
 					<Anchor point="CENTER" relativeTo="$parent">
 						<Offset>
-							<AbsDimension x="55" y="-80"/>  <!-- Third row -->
+							<AbsDimension x="55" y="-70"/>  <!-- Aligned with third row -->
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -435,7 +451,7 @@
 				<Anchors>
 					<Anchor point="CENTER" relativeTo="$parent">
 						<Offset>
-							<AbsDimension x="170" y="-80"/>
+							<AbsDimension x="170" y="-70"/>  <!-- Aligned with third row -->
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -452,7 +468,7 @@
 				<Anchors>
 					<Anchor point="CENTER" relativeTo="$parent">
 						<Offset>
-							<AbsDimension x="0" y="-120"/>
+							<AbsDimension x="0" y="-110"/>  <!-- Changed from -120 to -110 -->
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -512,7 +528,7 @@
 				<Anchors>
 					<Anchor point="CENTER" relativeTo="$parent">
 						<Offset>
-							<AbsDimension x="0" y="-145"/>  <!-- Changed from -138 to -145 to move slightly down -->
+							<AbsDimension x="0" y="-145"/> 
 						</Offset>
 					</Anchor>
 				</Anchors>

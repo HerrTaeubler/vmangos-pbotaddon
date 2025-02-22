@@ -1,5 +1,5 @@
--- Create Date : 2020/5/12 10:00:00
-
+-- Create Date : 2020/5/12 10:00:00 by coolzoom 
+-- Update Date : 2025/2/22 18:00:00 by HerrTaeubler 
 -- Constants moved to top and grouped logically
 local ADDON_NAME = "vbots"
 
@@ -12,7 +12,7 @@ CMD_PARTYBOT_SETROLE = ".partybot setrole "
 CMD_PARTYBOT_GEAR = ".character premade gear "
 CMD_PARTYBOT_SPEC = ".character premade spec "
 
--- BattleBot commands
+-- BattleBot commands (kept for future auto-fill implementation)
 CMD_BATTLEGROUND_GO = ".go "
 CMD_BATTLEBOT_ADD = ".battlebot add "
 
@@ -35,7 +35,7 @@ local BG_INFO = {
     }
 }
 
--- Command queue system
+-- Command queue system (add near other local variables)
 local CommandQueue = {
     commands = {},
     timer = 0,
@@ -184,7 +184,8 @@ local function Debug(msg)
     DEFAULT_CHAT_FRAME:AddMessage("|cFF00FF00ChatTest:|r " .. msg)
 end
 
--- Faction handling for add sham/pal
+-- Move this function definition up, before the event registration
+-- Simplify the faction button handling
 local function InitializeFactionClassButton()
     local button = getglobal("PartyBotAddFactionClass")
     if button then
@@ -212,7 +213,7 @@ f:SetScript("OnEvent", function()
 
     -- Handle chat messages for templates
     if event == "CHAT_MSG_SYSTEM" and message then
-        Debug("Got message: " .. tostring(message))
+        Debug("Got message: " .. tostring(message)) -- THANK YOU CELGUAR :-)
         
         -- Try to match the exact format we see
         if string.find(message, "^%d+%s*-%s*") then
@@ -311,7 +312,7 @@ CommandQueue.frame:SetScript("OnUpdate", function()
     end
 end)
 
--- Function to fill a battleground
+-- Function to fill a battleground -- THANK YOU DIGITAL SCORPIUM FOR THE IDEA - https://www.youtube.com/@Digital-Scriptorium
 function SubBattleFill(self, bgType)
     Debug("Starting battleground fill for: " .. bgType)
     local playerFaction = string.lower(UnitFactionGroup("player"))
