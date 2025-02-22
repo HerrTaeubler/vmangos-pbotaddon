@@ -3,15 +3,44 @@
 -- Constants moved to top and grouped logically
 local ADDON_NAME = "vbots"
 
--- Command constants (keep the global ones since they're used in existing code)
+-- Command constants
+-- PartyBot commands
 CMD_PARTYBOT_CLONE = ".partybot clone"
 CMD_PARTYBOT_REMOVE = ".partybot remove"
 CMD_PARTYBOT_ADD = ".partybot add "
 CMD_PARTYBOT_SETROLE = ".partybot setrole "
-CMD_BATTLEGROUND_GO = ".go "
-CMD_BATTLEBOT_ADD = ".battlebot add "
 CMD_PARTYBOT_GEAR = ".character premade gear "
 CMD_PARTYBOT_SPEC = ".character premade spec "
+
+-- BattleBot commands (kept for future auto-fill implementation)
+CMD_BATTLEGROUND_GO = ".go "
+CMD_BATTLEBOT_ADD = ".battlebot add "
+
+-- BG sizes and level requirements
+local BG_INFO = {
+    warsong = {
+        size = 10,
+        minLevel = 10,
+        maxLevel = 60
+    },
+    arathi = {
+        size = 15,
+        minLevel = 20,
+        maxLevel = 60
+    },
+    alterac = {
+        size = 40,
+        minLevel = 51,
+        maxLevel = 60
+    }
+}
+
+-- Command queue system (add near other local variables)
+local CommandQueue = {
+    commands = {},
+    timer = 0,
+    processing = false
+}
 
 -- Local variables for minimap button
 local MinimapButton = {
@@ -65,6 +94,7 @@ function MinimapButton:Toggle()
     self:Init()
 end
 
+-- PartyBot functions
 function SubPartyBotClone(self)
     SendChatMessage(CMD_PARTYBOT_CLONE)
 end
@@ -82,14 +112,12 @@ function SubPartyBotAdd(self, arg)
     DEFAULT_CHAT_FRAME:AddMessage("bot added. please search available gear and spec set.")
 end
 
-function SubBattleBotAdd(self, arg1, arg2)
-    SendChatMessage(CMD_BATTLEBOT_ADD .. arg1 .. " " .. arg2)
-end
-
+-- BattleGround function (kept for queue buttons)
 function SubBattleGo(self, arg)
     SendChatMessage(CMD_BATTLEGROUND_GO .. arg)
 end
 
+-- Utility functions
 function SubSendGuildMessage(self, arg)
     SendChatMessage(arg, "GUILD", "Common", 1)
 end
@@ -209,4 +237,83 @@ function TemplateDropDown_OnClick()
     end
 end
 
-Debug("Test addon ready") 
+Debug("Test addon ready")
+
+-- Function to add a bot command to queue
+local function QueueCommand(command)
+    table.insert(CommandQueue.commands, command)
+    if not CommandQueue.processing then
+        CommandQueue.processing = true
+        CommandQueue.timer = 0
+        CommandQueue.frame:Show()
+    end
+end
+
+-- Create the command processing frame
+CommandQueue.frame = CreateFrame("Frame")
+CommandQueue.frame:Hide()
+CommandQueue.frame:SetScript("OnUpdate", function()
+    if table.getn(CommandQueue.commands) == 0 then
+        CommandQueue.processing = false
+        CommandQueue.frame:Hide()
+        return
+    end
+
+    CommandQueue.timer = CommandQueue.timer + arg1
+    if CommandQueue.timer >= 0.5 then -- Half second delay between commands
+        local command = table.remove(CommandQueue.commands, 1)
+        SendChatMessage(command)
+        CommandQueue.timer = 0
+        
+        if table.getn(CommandQueue.commands) == 0 then
+            DEFAULT_CHAT_FRAME:AddMessage("All bots have been added!")
+        end
+    end
+end)
+
+-- Function to fill a battleground
+function SubBattleFill(self, bgType)
+    local playerFaction = string.lower(UnitFactionGroup("player"))
+    local playerLevel = UnitLevel("player")
+    local bgData = BG_INFO[bgType]
+    
+    if not bgData then
+        DEFAULT_CHAT_FRAME:AddMessage("Invalid battleground type: " .. bgType)
+        return
+    end
+    
+    -- Check level requirements
+    if playerLevel < bgData.minLevel then
+        DEFAULT_CHAT_FRAME:AddMessage("You must be at least level " .. bgData.minLevel .. " to queue for " .. bgType)
+        return
+    end
+    
+    -- Clear any existing queue
+    CommandQueue.commands = {}
+    CommandQueue.timer = 0
+    
+    -- Add Alliance bots
+    local allianceCount = bgData.size
+    if playerFaction == "alliance" then
+        allianceCount = bgData.size - 1 -- Leave one spot for the player
+    end
+    for i = 1, allianceCount do
+        QueueCommand(CMD_BATTLEBOT_ADD .. bgType .. " alliance " .. playerLevel)
+    end
+    
+    -- Add Horde bots
+    local hordeCount = bgData.size
+    if playerFaction == "horde" then
+        hordeCount = bgData.size - 1 -- Leave one spot for the player
+    end
+    for i = 1, hordeCount do
+        QueueCommand(CMD_BATTLEBOT_ADD .. bgType .. " horde " .. playerLevel)
+    end
+    
+    -- Queue the battleground at the end
+    QueueCommand(CMD_BATTLEGROUND_GO .. bgType)
+    
+    -- Show feedback message
+    local totalBots = allianceCount + hordeCount
+    DEFAULT_CHAT_FRAME:AddMessage("Queueing " .. totalBots .. " level " .. playerLevel .. " bots for " .. bgType .. " (leaving space for you in " .. playerFaction .. " team)")
+end 
