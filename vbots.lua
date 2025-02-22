@@ -312,7 +312,7 @@ CommandQueue.frame:SetScript("OnUpdate", function()
     end
 end)
 
--- Function to fill a battleground -- THANK YOU DIGITAL SCORPIUM FOR THE IDEA - https://www.youtube.com/@Digital-Scriptorium
+-- Function to fill a battleground -- THANK YOU DIGITAL SCRIPTORIUM FOR THE IDEA - https://www.youtube.com/@Digital-Scriptorium
 function SubBattleFill(self, bgType)
     Debug("Starting battleground fill for: " .. bgType)
     local playerFaction = string.lower(UnitFactionGroup("player"))
